@@ -4,14 +4,17 @@ from django.views.generic import FormView, CreateView
 from lists.forms import ExistingListItemForm, ItemForm
 from lists.models import List
 
-class HomePageView(FormView):
+
+class HomeItemFormMixin:
     template_name = 'home.html'
     form_class = ItemForm
 
 
-class NewListView(CreateView):
-    form_class = ItemForm
-    template_name = 'home.html'
+class HomePageView(HomeItemFormMixin, FormView):
+    pass
+
+
+class NewListView(HomeItemFormMixin, CreateView):
 
     def form_valid(self, form):
         list_ = List.objects.create()
